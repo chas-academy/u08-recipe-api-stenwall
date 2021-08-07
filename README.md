@@ -1,62 +1,52 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# U08 Recipe API
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+School Assignment @ Chas Academy, class FWD20
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+>In this assignment, you will build a backend API for the recipe application [u07](https://github.com/chas-academy/u07-recipe-app-stenwall) and use it in the frontend part.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+>The functionality to be added is a backend, built as a RESTful API in Laravel, that can manage users and their recipe lists. This API will then be consumed by the application from u07 which now needs to be able to handle user login and CRUD on the user's own recipe lists. API data for the recipes must still be retrieved from an external API.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Requirements
 
-## Learning Laravel
+As a user, you should be able to do the following (same requirements as in u07):
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- [x] Be able to get a list of recipe suggestions
+- [x] Be able to filter the suggestions of recipes by dish type and allergens/preferences (at least six filters)
+- [x] Be able to click on a recipe to see its information (with its own route)
+- [x] Be able to save recipes in a list (edit/remove from list) (this part must now be linked to your own API)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### API requirements
 
-## Laravel Sponsors
+- [x] Use JWT based tokens for communication or implementation of Laravel Sanctum for authentication and authorization
+- [ ] All lists must be linked to a user and may only be changed / read by the same user
+- [x] Recipes may only appear once in each list, but the same recipe may appear in several lists
+- [x] Data for specific recipes should still be retrieved from an external API
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+As a user, you should be able to do the following:
 
-### Premium Partners
+- [x] Register an account in the API (create user, log in, log out)
+- [ ] Save lists of recipes. Each list has as a minimum requirement to contain:
+    - [ ] title
+    - [ ] which recipes are included
+- [ ] Add a list, load a list, change a list and delete a list
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
+### New frontend requirements
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- [ ] Users should be able to create an account, log in and log out
+- [ ] Users must be able to perform CRUD on their own recipe lists
 
-## Code of Conduct
+## Deployment
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+The frontend is deployed on Netlify: [parsley-and-sage.netlify.app](https://parsley-and-sage.netlify.app/)
 
-## Security Vulnerabilities
+## Notes
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Design
 
-## License
+### Other notes
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+---
