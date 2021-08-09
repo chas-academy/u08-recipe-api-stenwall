@@ -60,5 +60,10 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims() {
         return [];
-    }    
+    }
+
+    public function recipeLists()
+    {
+        return $this->hasMany(RecipeList::class);
+    }
 }

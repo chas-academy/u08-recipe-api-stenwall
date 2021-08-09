@@ -9,10 +9,20 @@ class RecipeList extends Model
 {
     use HasFactory;
 
-    protected $table = 'recipe_list';
+    protected $table = 'recipe_lists';
     public $timestamps = true;
 
     protected $fillable = [
-        'title',
+        'title'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function recipes()
+    {
+        return $this->hasMany(Recipe::class);
+    }
 }
