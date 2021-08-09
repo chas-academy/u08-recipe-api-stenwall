@@ -49,7 +49,7 @@ class AuthController extends Controller
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|between:2,25',
-            'email' => 'required|string|email|max:100|unique:users',
+            'email' => 'required|string|email|max:100|unique:users,email',
             'password' => 'required|string|confirmed|min:6|max:50',
         ]);
 
@@ -61,6 +61,8 @@ class AuthController extends Controller
                     $validator->validated(),
                     ['password' => bcrypt($request->password)]
                 ));
+        
+        auth()->login($user);
 
         return response()->json([
             'success' => true,
