@@ -14,33 +14,18 @@ class CreateRecipeListsTable extends Migration
     public function up()
     {
         Schema::create('recipe_lists', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('title');
             $table->timestamps();
-            
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
         });
 
         // create pivot table for recipe_lists_recipes
         Schema::create('recipe_lists_recipes', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('list_id');
-            $table->unsignedBigInteger('recipe_id');
+            $table->id();
+            $table->´foreignId('list_id')->constrained()->cascadeOnDelete();
+            $table->´foreignId('recipe_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
-
-            $table->foreign('list_id')
-                ->references('id')
-                ->on('recipe_lists')
-                ->onDelete('cascade');
-
-            $table->foreign('recipe_id')
-                ->references('id')
-                ->on('recipes')
-                ->onDelete('cascade');
 
             $table->unique(['list_id', 'recipe_id'], 'list_recipe_unique');
         });
