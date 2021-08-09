@@ -23,11 +23,11 @@ class CreateRecipeListsTable extends Migration
         // create pivot table for recipe_lists_recipes
         Schema::create('recipe_lists_recipes', function (Blueprint $table) {
             $table->id();
-            $table->´foreignId('list_id')->constrained()->cascadeOnDelete();
-            $table->´foreignId('recipe_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('recipe_list_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('recipe_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
 
-            $table->unique(['list_id', 'recipe_id'], 'list_recipe_unique');
+            $table->unique(['recipe_list_id', 'recipe_id'], 'list_recipe_unique');
         });
     }
 
