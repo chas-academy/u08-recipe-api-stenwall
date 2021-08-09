@@ -15,7 +15,7 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            return route('login');
+            return response()->json(['error' => 'Log in or register a user to create recipe lists'], 401);
         }
     }
 }
