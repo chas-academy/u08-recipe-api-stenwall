@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RecipeListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,26 +18,26 @@ use App\Http\Controllers\AuthController;
 
 Route::post('auth/register', [AuthController::class, 'register'])->middleware('guest');
 
-// Route::group([
-//     'middleware' => 'api',
-//     'prefix' => 'auth'
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
 
-// ], function ($router) {
-    Route::post('auth/login', [AuthController::class, 'login'])->middleware('api');
-//     Route::post('/register', [AuthController::class, 'register']);
-    Route::post('auth/logout', [AuthController::class, 'logout'])->middleware('api');
+], function ($router) {
+    Route::post('/login', [AuthController::class, 'login']);
+    // Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::get('auth/user-profile', [AuthController::class, 'userProfile'])->middleware('api');
-// });
+    Route::get('/user-profile', [AuthController::class, 'userProfile']);
+});
 
-// Route::group([
-//     'middleware' => 'api',
-//     'prefix' => 'lists'
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'lists'
 
-// ], function ($router) {
-//     Route::get('/',[ RecipeListController::class, 'index']);
-//     Route::post('/store',[ RecipeListController::class, 'store']);
-//     Route::get('/{id}',[ RecipeListController::class, 'show']);
-//     Route::put('/{id}',[ RecipeListController::class, 'update']);
-//     Route::delete('/{id}',[ RecipeListController::class, 'destroy']);
-// });
+], function ($router) {
+    Route::get('/',[ RecipeListController::class, 'index']);
+    Route::post('/',[ RecipeListController::class, 'store']);
+    Route::get('/{recipeList}',[ RecipeListController::class, 'show']);
+    Route::patch('/{recipeList}',[ RecipeListController::class, 'update']);
+    Route::delete('/{recipeList}',[ RecipeListController::class, 'destroy']);
+});
