@@ -20,7 +20,10 @@ class RecipeListController extends Controller
     {
         $recipeList = RecipeList::all();
 
-        return response()->json([$recipeList, 200]);
+        return response()->json([
+            'success' => true,
+            'list' => $recipeList
+        ], 200);
     }
 
     /**
@@ -38,7 +41,10 @@ class RecipeListController extends Controller
             ], 400);
         }
     
-        return response()->json([$recipeList, 200]);
+        return response()->json([
+            'success' => true,
+            'list' => $recipeList
+        ], 200);
     }
 
     /**
