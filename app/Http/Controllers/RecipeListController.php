@@ -18,7 +18,7 @@ class RecipeListController extends Controller
      */
     public function index()
     {
-        $recipeList = RecipeList::all();
+        $recipeList = auth()->user()->recipeLists;
 
         return response()->json([
             'success' => true,
