@@ -28,19 +28,33 @@ As a user, you should be able to do the following:
 
 - [x] Register an account in the API (create user, log in, log out)
 - [ ] Save lists of recipes. Each list has as a minimum requirement to contain:
-    - [ ] title
+    - [x] title
     - [ ] which recipes are included
-- [ ] Add a list, load a list, change a list and delete a list
+- [x] Add a list, load a list, change a list and delete a list
 
 ### New frontend requirements
 
 
-- [ ] Users should be able to create an account, log in and log out
+- [x] Users should be able to create an account, log in and log out
 - [ ] Users must be able to perform CRUD on their own recipe lists
 
 ## Deployment
 
+The API is deployed on Heroku: [parsley-sage.herokuapp.com](https://parsley-sage.herokuapp.com/)
+
 The frontend is deployed on Netlify: [parsley-and-sage.netlify.app](https://parsley-and-sage.netlify.app/)
+
+## API
+
+```js
+/lists // HTTP GET // Get all lists belonging to logged in user
+/lists // HTTP POST // Create a new list
+/lists/{id} // HTTP PUT // Update given list
+/lists/{id} // HTTP DELETE // Delete given list
+/lists/{id}/recipes // HTTP GET // Get all recipes belonging to given list
+/lists/{id}/recipes // HTTP POST // Add a new recipe to given list
+/lists/{id}/recipes/{id} // HTTP DELETE // Remove given recipe from given list
+```
 
 ## Notes
 
