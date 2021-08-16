@@ -23,6 +23,6 @@ class RecipeList extends Model
 
     public function recipes()
     {
-        return $this->hasMany(Recipe::class);
+        return $this->belongsToMany(Recipe::class, 'recipe_lists_recipes', 'recipe_list_id', 'recipe_id');
     }
 }
