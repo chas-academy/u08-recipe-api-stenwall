@@ -19,8 +19,11 @@ class RecipeController extends Controller
     public function index(RecipeList $recipeList)
     {
         $user = $recipeList->user;
+
         if ($user->id === auth()->user()->id) {
+    
             $recipes = $recipeList->recipes;
+    
             if ($recipes->isEmpty()) {
                 return response()->json([
                     'success' => false,
@@ -39,28 +42,7 @@ class RecipeController extends Controller
                 'message' => 'No recipe list with this id belongs to current user.'
             ], 401);
         }
-
-        // if (Post::where('slug', $slug)->exists()) {
-        //     // post with the same slug already exists
-        // }
-
-        // $recipes = DB::table('recipe_lists_recipes')
-        //                 ->where('recipe_list_id', $recipeList)
-        //                 ->select('recipe_list_id')
-        //                 ->get();
     }
-
-    // public function show(RecipeList $recipeList)
-    // {
-    //     if (!$recipeList) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => 'Sorry, list not found.'
-    //         ], 400);
-    //     }
-    
-    //     return response()->json([$recipeList, 200]);
-    // }
 
     /**
      * Store a newly created resource in storage.
@@ -71,19 +53,48 @@ class RecipeController extends Controller
     public function store(Request $request, RecipeList $recipeList)
     {
         $user = $recipeList->user;
+
         if ($user->id === auth()->user()->id) {
-            $recipes = $recipeList->recipes;
-            if ($recipes->isEmpty()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'This list does not have any recipes yet.'
-                ], 200);
-            } else {
-                return response()->json([
-                    'success' => true,
-                    'recipes' => $recipes
-                ], 200);
-            }
+
+            $validator = Validator::make($request->only('api_id','title', 'img'), [
+                'title' => 'required|string',
+                'api_id' => 'required|numeric',
+                'img' => 'nullable|string|url'
+            ]);
+
+            if($validator->fails()){
+                return response()->json($validator->errors(), 200);
+           }
+
+           // find given recipe in table 'recipes'
+           $recipe = Recipe::where('api_id', $request->api_id)->first();
+    
+           // if recipe doesn't exist in 'recipes', create it
+           if (!$recipe) {
+                $recipe = $recipeList->recipes()->create([
+                    'title' => $request->title,
+                    'api_id' => $request->api_id,
+                    'img' => $request->img
+                ]);
+
+           } else {
+                // if recipe exists in 'recipes', check if it is attach to given list, else attach it
+                if ($recipeList->recipes()->where('recipe_id', $recipe->id)->exists()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'The recipe is already in this list.'
+                    ], 200);
+
+                } else {
+                    $recipeList->recipes()->attach($recipe->id);
+                }
+           }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Recipe successfully saved to list',
+                'recipe' => $recipe
+            ], 201);
             
         } else {
             return response()->json([
@@ -91,43 +102,6 @@ class RecipeController extends Controller
                 'message' => 'No recipe list with this id belongs to current user.'
             ], 401);
         }
-        
-
-        if (Post::where('slug', $slug)->exists()) {
-            // post with the same slug already exists
-        }
-
-        $post = Post::firstOrCreate(
-            [
-                'slug'             => $post->slug,
-            ],
-            [
-                'title'            => $post->title,
-                'body'             => $post->body,
-                'slug'             => $post->slug,
-            ]
-        );
-
-        $validator = Validator::make($request->only('title'), [
-            'title' => 'required|string|between:2,50',
-            'img' => 'string|url',
-            
-        ]);
-
-        if($validator->fails()){
-            return response()->json($validator->errors(), 200);
-       }
-
-        // request is valid, create new list
-        $recipeList = auth()->user()->recipeLists()->create([
-            'title' => $request->title
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'List created successfully',
-            'list' => $recipeList
-        ], 201);
     }
 
     /**
@@ -173,7 +147,7 @@ class RecipeController extends Controller
      * @param  \App\Models\RecipeList  $recipeList
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RecipeList $recipeList)
+    public function destroy(RecipeList $recipeList, Recipe $recipe)
     {
         $recipeList->delete();
         
