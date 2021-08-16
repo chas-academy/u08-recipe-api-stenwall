@@ -24,7 +24,8 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request){
+    public function login(Request $request) {
+
     	$validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|string|min:6',
@@ -47,8 +48,9 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request) {
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,25',
+            'name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users,email',
             'password' => 'required|string|confirmed|min:6|max:50',
         ]);
@@ -61,7 +63,8 @@ class AuthController extends Controller
                     $validator->validated(),
                     ['password' => bcrypt($request->password)]
                 ));
-        
+
+        // this is currently not working
         auth()->login($user);
 
         return response()->json([
@@ -70,7 +73,6 @@ class AuthController extends Controller
             'user' => $user
         ], 201);
     }
-
 
     /**
      * Log the user out (Invalidate the token).
@@ -116,5 +118,4 @@ class AuthController extends Controller
             'user' => auth()->user()
         ]);
     }
-
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +48,7 @@ class RecipeListController extends Controller
                 'message' => 'Sorry, list not found.'
             ], 400);
         }
-    
+
         return response()->json([
             'success' => true,
             'list' => $recipeList
@@ -95,16 +96,8 @@ class RecipeListController extends Controller
             'title' => 'required|string|between:2,50'
         ]);
 
-        // $recipeList = auth()->user()->recipeLists()->create([
-        //     'title' => $request->title
-        // ]);
-
-        // $recipeList->update($this->validateRecipeList());
-
-        // send failed response if request is not valid
         if ($validator->fails()) {
             return response()->json($validator->errors(), 200);
-            // return response()->json(['error' => $validator->messages()], 200);
         }
 
         $recipeList = $recipeList->update([
