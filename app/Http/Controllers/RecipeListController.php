@@ -20,6 +20,13 @@ class RecipeListController extends Controller
     {
         $recipeList = auth()->user()->recipeLists;
 
+        if (!$recipeList) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No lists found.'
+            ], 400);
+        }
+
         return response()->json([
             'success' => true,
             'list' => $recipeList
