@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RecipeListController;
+use App\Http\Controllers\RecipeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,9 +36,11 @@ Route::group([
     'prefix' => 'lists'
 
 ], function ($router) {
-    Route::get('/',[ RecipeListController::class, 'index']);
-    Route::post('/',[ RecipeListController::class, 'store']);
-    Route::get('/{recipeList}',[ RecipeListController::class, 'show']);
-    Route::patch('/{recipeList}',[ RecipeListController::class, 'update']);
-    Route::delete('/{recipeList}',[ RecipeListController::class, 'destroy']);
+    Route::get('/',[ RecipeListController::class, 'index']); // Get all lists belonging to logged in user
+    Route::post('/',[ RecipeListController::class, 'store']); // Create a new list
+    Route::put('/{recipeList}',[ RecipeListController::class, 'update']); // Update given list
+    Route::delete('/{recipeList}',[ RecipeListController::class, 'destroy']); // Delete given list
+    Route::get('/{recipeList}/recipes',[ RecipeController::class, 'index']); // Get all recipes belonging to given list
+    Route::post('/{recipeList}/recipes',[ RecipeController::class, 'store']); // Add a new recipe to given list
+    Route::delete('/{recipeList}/recipes/{recipe}',[ RecipeController::class, 'destroy']); // Remove given recipe from given list
 });
