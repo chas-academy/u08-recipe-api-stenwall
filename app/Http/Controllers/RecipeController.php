@@ -14,7 +14,7 @@ class RecipeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(RecipeList $recipeList)
     {
@@ -22,7 +22,6 @@ class RecipeController extends Controller
 
         // check if given list belongs to current user
         if ($user->id === auth()->user()->id) {
-
             $recipes = $recipeList->recipes;
 
             if ($recipes->isEmpty()) {
@@ -30,14 +29,12 @@ class RecipeController extends Controller
                     'success' => false,
                     'message' => 'This list does not have any recipes yet.'
                 ], 200);
-
             } else {
                 return response()->json([
                     'success' => true,
                     'recipes' => $recipes
                 ], 200);
             }
-
         } else {
             return response()->json([
                 'success' => false,
@@ -50,7 +47,7 @@ class RecipeController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, RecipeList $recipeList)
     {
@@ -58,46 +55,79 @@ class RecipeController extends Controller
 
         // check if given list belongs to current user
         if ($user->id === auth()->user()->id) {
-
-            $validator = Validator::make($request->only('api_id','title', 'img'), [
+            $validator = Validator::make($request->only('api_id', 'title', 'img'), [
                 'title' => 'required|string',
                 'api_id' => 'required|numeric',
                 'img' => 'nullable|string|url'
             ]);
 
-            if($validator->fails()){
+            if ($validator->fails()) {
                 return response()->json($validator->errors(), 200);
-           }
+            }
 
-           // find given recipe in table 'recipes'
-           $recipe = Recipe::where('api_id', $request->api_id)->first();
+            // find given recipe in table 'recipes'
+            $recipe = Recipe::where('api_id', $request->api_id)->first();
     
-           // if recipe doesn't exist in 'recipes', create it
-           if (!$recipe) {
+            // if recipe doesn't exist in 'recipes', create it
+            if (!$recipe) {
                 $recipe = $recipeList->recipes()->create([
                     'title' => $request->title,
                     'api_id' => $request->api_id,
                     'img' => $request->img
                 ]);
-
-           } else {
+            } else {
                 // if recipe exists in 'recipes', check if it is attach to given list, else attach it
                 if ($recipeList->recipes()->where('recipe_id', $recipe->id)->exists()) {
                     return response()->json([
                         'success' => false,
                         'message' => 'The recipe is already in this list.'
                     ], 200);
-
                 } else {
                     $recipeList->recipes()->attach($recipe->id);
                 }
-           }
+            }
 
             return response()->json([
                 'success' => true,
                 'message' => 'Recipe successfully saved to list',
                 'recipe' => $recipe
             ], 201);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No recipe list with this id belongs to current user.'
+            ], 401);
+        }
+    }
+
+    /**
+    * Check if resource exists.
+    *
+    * @param  \App\Models\RecipeList  $recipeList
+    * @param  \App\Models\Recipe  $recipe
+    */
+    public function checkIfExists(RecipeList $recipeList, $apiId)
+    {
+        $user = $recipeList->user;
+
+        // check if given list belongs to current user
+        if ($user->id === auth()->user()->id) {
+
+            $recipe = Recipe::where('api_id', $apiId)->first();
+
+            // find given recipe in table 'recipes'
+            if (!$recipe) {
+                return 'false';
+    
+            } else {
+                // check if given recipe is attach to given list
+                if ($recipeList->recipes()->where('recipe_id', $recipe->id)->doesntExist()) {
+                    return 'false';
+
+                } else {
+                    return 'true';
+                }
+            }
 
         } else {
             return response()->json([
@@ -111,7 +141,8 @@ class RecipeController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\RecipeList  $recipeList
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Recipe  $recipe
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(RecipeList $recipeList, Recipe $recipe)
     {
@@ -125,7 +156,6 @@ class RecipeController extends Controller
                     'success' => false,
                     'message' => 'No recipe with this id exists in current list.'
                 ], 200);
-
             } else {
                 $recipeList->recipes()->detach($recipe->id);
 
@@ -134,7 +164,6 @@ class RecipeController extends Controller
                     'message' => 'Recipe successfully removed from list'
                 ], 200);
             }
-
         } else {
             return response()->json([
                 'success' => false,
