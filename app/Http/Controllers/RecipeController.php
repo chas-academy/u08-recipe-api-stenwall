@@ -138,6 +138,25 @@ class RecipeController extends Controller
     }
 
     /**
+    * Check if resource exists.
+    *
+    * @param  \App\Models\Recipe  $recipe
+    * @param  \App\Models\RecipeList  $recipeList
+    * @return \Illuminate\Http\JsonResponse
+    */
+    public function listsWithRecipe($apiId)
+    {
+        $recipeList = auth()->user()->recipeLists()->whereHas('recipes', function ($query) use ($apiId) {
+            $query->where('api_id', '=', intval($apiId));
+        })->get();
+
+        return response()->json([
+            'success' => true,
+            'list' => $recipeList
+        ], 200);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\RecipeList  $recipeList

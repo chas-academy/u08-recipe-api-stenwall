@@ -36,12 +36,13 @@ Route::group([
     'prefix' => 'lists'
 
 ], function ($router) {
-    Route::get('/',[ RecipeListController::class, 'index']); // Get all lists belonging to logged in user
-    Route::post('/',[ RecipeListController::class, 'store']); // Create a new list
-    Route::put('/{recipeList}',[ RecipeListController::class, 'update']); // Update given list
-    Route::delete('/{recipeList}',[ RecipeListController::class, 'destroy']); // Delete given list
-    Route::get('/{recipeList}/recipes',[ RecipeController::class, 'index']); // Get all recipes belonging to given list
-    Route::post('/{recipeList}/recipes',[ RecipeController::class, 'store']); // Add a new recipe to given list
-    Route::delete('/{recipeList}/recipes/{recipe}',[ RecipeController::class, 'destroy']); // Remove given recipe from given list
-    Route::get('/{recipeList}/recipes/{apiId}', [ RecipeController::class, 'checkIfExists']); // check if recipe exists in list
+    Route::get('/',[ RecipeListController::class, 'index']); // get all lists belonging to logged in user
+    Route::post('/',[ RecipeListController::class, 'store']); // create a new list
+    Route::put('/{recipeList}',[ RecipeListController::class, 'update']); // update given list
+    Route::delete('/{recipeList}',[ RecipeListController::class, 'destroy']); // delete given list
+    Route::get('/{recipeList}/recipes',[ RecipeController::class, 'index']); // get all recipes belonging to given list
+    Route::post('/{recipeList}/recipes',[ RecipeController::class, 'store']); // add a new recipe to given list
+    Route::delete('/{recipeList}/recipes/{recipe}',[ RecipeController::class, 'destroy']); // remove given recipe from given list
+    Route::get('/{recipeList}/recipes/{apiId}', [ RecipeController::class, 'checkIfExists']); // check if recipe exists given list
+    Route::get('/recipes/{apiId}', [ RecipeController::class, 'listsWithRecipe']); // check if recipe exists in users lists
 });
