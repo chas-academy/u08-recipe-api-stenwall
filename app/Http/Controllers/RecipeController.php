@@ -105,6 +105,7 @@ class RecipeController extends Controller
     *
     * @param  \App\Models\RecipeList  $recipeList
     * @param  \App\Models\Recipe  $recipe
+    * @return \Illuminate\Http\JsonResponse
     */
     public function checkIfExists(RecipeList $recipeList, $apiId)
     {
@@ -117,15 +118,27 @@ class RecipeController extends Controller
 
             // find given recipe in table 'recipes'
             if (!$recipe) {
-                return 'false';
+                return response()->json([
+                    'success' => true,
+                    'exists' => false,
+                    'message' => 'This recipe does not exist in any list.'
+                ], 200);
     
             } else {
                 // check if given recipe is attach to given list
                 if ($recipeList->recipes()->where('recipe_id', $recipe->id)->doesntExist()) {
-                    return 'false';
+                    return response()->json([
+                        'success' => true,
+                        'exists' => false,
+                        'message' => 'This recipe does not exist in any of this users lists.'
+                    ], 200);
 
                 } else {
-                    return 'true';
+                    return response()->json([
+                        'success' => true,
+                        'exists' => true,
+                        'recipe' => $recipe
+                    ], 200);
                 }
             }
 
