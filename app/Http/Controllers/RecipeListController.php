@@ -15,7 +15,7 @@ class RecipeListController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -35,31 +35,10 @@ class RecipeListController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\RecipeList  $recipeList
-     * @return \Illuminate\Http\Response
-     */
-    public function show(RecipeList $recipeList)
-    {
-        if (!$recipeList) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, list not found.'
-            ], 400);
-        }
-
-        return response()->json([
-            'success' => true,
-            'list' => $recipeList
-        ], 200);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -88,7 +67,7 @@ class RecipeListController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\RecipeList  $recipeList
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, RecipeList $recipeList)
     {
@@ -116,7 +95,7 @@ class RecipeListController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\RecipeList  $recipeList
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(RecipeList $recipeList)
     {

@@ -43,4 +43,5 @@ Route::group([
     Route::get('/{recipeList}/recipes',[ RecipeController::class, 'index']); // Get all recipes belonging to given list
     Route::post('/{recipeList}/recipes',[ RecipeController::class, 'store']); // Add a new recipe to given list
     Route::delete('/{recipeList}/recipes/{recipe}',[ RecipeController::class, 'destroy']); // Remove given recipe from given list
+    Route::get('/{recipeList}/recipes/{apiId}', [ RecipeController::class, 'checkIfExists']); // check if recipe exists in list
 });
