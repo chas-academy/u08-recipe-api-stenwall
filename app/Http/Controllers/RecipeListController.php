@@ -57,7 +57,7 @@ class RecipeListController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'List created successfully',
+            'message' => 'List created successfully.',
             'list' => $recipeList
         ], 201);
     }
@@ -86,7 +86,7 @@ class RecipeListController extends Controller
         // list updated, return success response
         return response()->json([
             'success' => true,
-            'message' => 'List title updated',
+            'message' => 'List title updated.',
             'list' => $recipeList
         ], 201);
     }
@@ -103,15 +103,7 @@ class RecipeListController extends Controller
         
         return response()->json([
             'success' => true,
-            'message' => 'List deleted successfully'
+            'message' => 'List deleted successfully.'
         ], 200);
-    }
-
-    protected function validateRecipeList()
-    {
-        return request()->validate([
-            'title' => 'required|string|between:2,50',
-            'recipes' => 'exists:recipes,id'
-        ]);
     }
 }

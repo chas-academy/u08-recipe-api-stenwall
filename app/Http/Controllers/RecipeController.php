@@ -89,7 +89,7 @@ class RecipeController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Recipe successfully saved to list',
+                'message' => 'Recipe successfully saved to list.',
                 'recipe' => $recipe
             ], 201);
         } else {

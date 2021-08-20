@@ -25,7 +25,6 @@ Route::group([
 
 ], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
-    // Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
@@ -44,5 +43,5 @@ Route::group([
     Route::post('/{recipeList}/recipes',[ RecipeController::class, 'store']); // add a new recipe to given list
     Route::delete('/{recipeList}/recipes/{recipe}',[ RecipeController::class, 'destroy']); // remove given recipe from given list
     Route::get('/{recipeList}/recipes/{apiId}', [ RecipeController::class, 'checkIfExists']); // check if recipe exists given list
-    Route::get('/recipes/{apiId}', [ RecipeController::class, 'listsWithRecipe']); // check if recipe exists in users lists
+    Route::get('/{apiId}', [ RecipeController::class, 'listsWithRecipe']); // check if recipe exists in users lists
 });
