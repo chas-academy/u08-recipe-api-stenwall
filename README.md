@@ -55,8 +55,8 @@ The base URL with above deployment is: [parsley-sage.herokuapp.com/api](https://
 | POST | `/lists` | create new list |
 | GET | `/lists` | get all lists belonging to auth user |
 | PUT | `/lists/:listId` | update given list |
-| GET | `/lists/:listId` | get all lists where recipe exists |
 | DELETE | `/lists/:listId`| delete given list |
+| GET | `/lists/:apiId` | get all lists where recipe exists |
 | POST |  `/lists/:listId/recipes` | add new recipe to given list |
 | GET | `/lists/:listId/recipes` | get all recipes in given list |
 | GET | `/lists/:listId/recipes/:apiId` | check if recipe exists in given list |
