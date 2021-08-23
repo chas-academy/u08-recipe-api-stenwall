@@ -48,6 +48,31 @@ The frontend is deployed on Netlify: [parsley-and-sage.netlify.app](https://pars
 
 The base URL with above deployment is: [parsley-sage.herokuapp.com/api](https://parsley-sage.herokuapp.com/api)
 
+```
++--------+----------+-----------------------------------------+-------------------------------------------------------+------------+
+| Domain | Method   | URI                                     | Action                                                | Middleware |
++--------+----------+-----------------------------------------+-------------------------------------------------------+------------+
+|        | GET|HEAD | /                                       | Closure                                               | web        |
+|        | POST     | api/auth/login                          | App\Http\Controllers\AuthController@login             | api        |
+|        | POST     | api/auth/logout                         | App\Http\Controllers\AuthController@logout            | api        |
+|        |          |                                         |                                                       | auth:api   |
+|        | POST     | api/auth/refresh                        | App\Http\Controllers\AuthController@refresh           | api        |
+|        |          |                                         |                                                       | auth:api   |
+|        | POST     | api/auth/register                       | App\Http\Controllers\AuthController@register          | api        |
+|        |          |                                         |                                                       | guest      |
+|        | GET|HEAD | api/auth/user-profile                   | App\Http\Controllers\AuthController@userProfile       | api        |
+|        |          |                                         |                                                       | auth:api   |
+|        | GET|HEAD | api/lists                               | App\Http\Controllers\RecipeListController@index       | api        |
+|        | POST     | api/lists                               | App\Http\Controllers\RecipeListController@store       | api        |
+|        | GET|HEAD | api/lists/{apiId}                       | App\Http\Controllers\RecipeController@listsWithRecipe | api        |
+|        | PUT      | api/lists/{recipeList}                  | App\Http\Controllers\RecipeListController@update      | api        |
+|        | DELETE   | api/lists/{recipeList}                  | App\Http\Controllers\RecipeListController@destroy     | api        |
+|        | GET|HEAD | api/lists/{recipeList}/recipes          | App\Http\Controllers\RecipeController@index           | api        |
+|        | POST     | api/lists/{recipeList}/recipes          | App\Http\Controllers\RecipeController@store           | api        |
+|        | GET|HEAD | api/lists/{recipeList}/recipes/{apiId}  | App\Http\Controllers\RecipeController@checkIfExists   | api        |
++--------+----------+-----------------------------------------+-------------------------------------------------------+------------+
+```
+
 ### Model URIs for lists
 
 | Methods | URLs | Actions |
